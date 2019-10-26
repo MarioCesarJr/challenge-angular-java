@@ -1,0 +1,57 @@
+<div class="container" *ngIf="cart.length > 0">
+  <table class="productTable">
+    <thead>
+      <tr>
+        <th></th>
+        <th>PRODUTO</th>
+        <th>QTD</th>
+        <th>SUBTOTAL</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let product of cart">
+        <td>
+          <img
+            src="http://localhost:8080/images/{{
+              removeFakepath(product.image)
+            }}"
+            alt=""
+          />
+        </td>
+        <td>
+          <strong>{{ product.name }}</strong>
+          <strong>{{ product.description }}</strong>
+          <span>R$ {{ product.price | number: '1.2-2' }}</span>
+        </td>
+        <td>
+          <div>
+            <button (click)="decrement(product)">-</button>
+            <input type="number" readonly value="{{ product.amount }}" />
+            <button (click)="increment(product)">+</button>
+          </div>
+        </td>
+        <td>
+          <strong>R$ {{ product.subtotal | number: '1.2-2' }}</strong>
+        </td>
+        <td>
+          <button (click)="removeFromCart(product)">
+            <i class="fas fa-trash"></i>
+          </button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+  <footer>
+    <button type="button" routerLink="/cart/purchase">Visualizar compra</button>
+    <div class="total">
+      <span>TOTAL</span>
+      <strong>R$ {{ totalCart | number: '1.2-2' }}</strong>
+    </div>
+  </footer>
+</div>
+
+<div class="empty_container" *ngIf="cart.length === 0">
+  <i class="fas fa-cart-arrow-down"></i>
+  <div>Seu carrinho está vazio.</div>
+</div>

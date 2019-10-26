@@ -1,0 +1,21 @@
+<ul>
+  <div *ngFor="let product of products">
+    <li>
+      <img
+        src="http://localhost:8080/images/{{ removeFakepath(product.image) }}"
+        alt=""
+        class="image"
+      />
+      <strong>{{ product.name }}</strong>
+      <strong>{{ product.description }}</strong>
+      <span>R$ {{ product.price | number: '1.2-2' }}</span>
+      <button (click)="addToCart(product)">
+        <div>
+          <i class="fas fa-cart-arrow-down"></i>
+          {{ amount[product.id] || 0 }}
+        </div>
+        <span class="add">ADICIONAR AO CARRINHO</span>
+      </button>
+    </li>
+  </div>
+</ul>

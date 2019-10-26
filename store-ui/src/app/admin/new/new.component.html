@@ -1,0 +1,94 @@
+<form id="new-product" #f="ngForm" (ngSubmit)="save(f)">
+  <input
+    type="file"
+    name="image"
+    [(ngModel)]="product.image"
+    #name="ngModel"
+    (change)="inputFileChange($event)"
+  />
+
+  <input
+    type="text"
+    placeholder="Nome do produto"
+    name="name"
+    [(ngModel)]="product.name"
+    #name="ngModel"
+    required
+  />
+
+  <div class="error" *ngIf="name.hasError('required') && name.touched">
+    Nome é obrigatório
+  </div>
+
+  <input
+    type="text"
+    placeholder="Descrição"
+    name="description"
+    [(ngModel)]="product.description"
+    #description="ngModel"
+  />
+
+  <input
+    type="text"
+    placeholder="Preço"
+    name="price"
+    [(ngModel)]="product.price"
+    #price="ngModel"
+    required
+    type="text"
+    currencyMask
+    [options]="{
+      prefix: '',
+      thousands: '.',
+      decimal: ',',
+      allowNegative: false
+    }"
+  />
+
+  <div class="error" *ngIf="price.hasError('required') && price.touched">
+    Preço é obrigatório
+  </div>
+
+  <div class="button_container">
+    <button type="submit" [disabled]="f.invalid">
+      {{ isEdit ? 'Atualizar' : 'Salvar' }}
+    </button>
+
+    <button class="button_new" type="button" (click)="newProduct(f)">
+      Novo
+    </button>
+
+    <a routerLink="/">ir para loja</a>
+  </div>
+</form>
+
+<table style="margin-top: 20px">
+  <tr>
+    <th></th>
+    <th>Nome do produto</th>
+    <th>Ações</th>
+  </tr>
+
+  <tr *ngFor="let product of products">
+    <td>
+      <img
+        src="http://localhost:8080/images/{{ removeFakepath(product.image) }}"
+        alt=""
+        height="35"
+        width="35"
+      />
+    </td>
+    <td>
+      {{ product.name }}
+    </td>
+    <td>
+      <button
+        (click)="loadProduct(product.id)"
+        [routerLink]="['/admin', product.id]"
+      >
+        <i class="fas fa-pencil-alt"></i>
+      </button>
+      <button (click)="remove(product.id)"><i class="fas fa-trash"></i></button>
+    </td>
+  </tr>
+</table>

@@ -1,0 +1,100 @@
+.container {
+  padding: 30px;
+  background: #fff;
+  border-radius: 4px;
+}
+
+.container footer {
+  margin-top: 30px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.container footer button {
+  background: #3c6366;
+  color: #fff;
+  border: 0;
+  border-radius: 4px;
+  padding: 12px 20px;
+  font-weight: bold;
+  text-transform: uppercase;
+  transition: background 0.2s;
+}
+
+.productTable {
+  width: 100%;
+}
+
+.productTable thead th {
+  color: #999;
+  text-align: left;
+  padding: 12px;
+}
+
+.productTable tbody td {
+  padding: 12px;
+  vertical-align: middle;
+  border-bottom: 1px solid #eee;
+}
+
+.productTable img {
+  height: 100px;
+}
+
+.productTable strong {
+  color: #333;
+  display: block;
+}
+
+.productTable span {
+  display: block;
+  margin-top: 5px;
+  font-size: 18px;
+  font-weight: bold;
+}
+
+.productTable div {
+  display: flex;
+  align-items: center;
+}
+
+.productTable div input {
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  color: #666;
+  padding: 6px;
+  width: 50px;
+}
+
+.productTable button {
+  background: none;
+  border: 0;
+  padding: 6px;
+  color: #3c6366;
+}
+
+.total {
+  display: flex;
+  align-items: baseline;
+}
+
+.total span {
+  color: #999;
+  font-weight: bold;
+}
+
+.total strong {
+  font-size: 28px;
+  margin-left: 5px;
+}
+
+.empty_container {
+  text-align: center;
+
+  font-size: 30px;
+  font-weight: bold;
+  margin-top: 18px;
+  text-align: center;
+  color: rgb(175, 170, 170);
+}
