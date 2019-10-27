@@ -34,6 +34,6 @@ export class PurchaseComponent implements OnInit {
   ngOnInit() {}
 
   removeFakepath(url: string) {
-    return url.replace('C:\\fakepath\\', '');
+    return url.match(/[^\\/]*$/)[0];
   }
 }

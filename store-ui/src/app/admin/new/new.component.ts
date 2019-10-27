@@ -14,6 +14,7 @@ import { ActivatedRoute } from '@angular/router';
 export class NewComponent implements OnInit {
   products = [];
   product = new Product();
+  nameText: string;
 
   constructor(
     private adminService: AdminService,
@@ -34,7 +35,13 @@ export class NewComponent implements OnInit {
   }
 
   removeFakepath(url: string) {
-    return url.replace('C:\\fakepath\\', '');
+    return url.match(/[^\\/]*$/)[0];
+  }
+
+  confirmDelete(id: number) {
+    if (confirm('Você tem certeza que deseja exluir este produto ')) {
+      this.remove(id);
+    }
   }
 
   inputFileChange(event) {
@@ -62,7 +69,7 @@ export class NewComponent implements OnInit {
 
   loadProducts() {
     this.adminService
-      .loadProducts()
+      .loadProducts({ name: this.nameText })
       .then(data => {
         this.products = data;
       })

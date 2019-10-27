@@ -35,7 +35,7 @@ export class CartComponent implements OnInit {
   ngOnInit() {}
 
   removeFakepath(url: string) {
-    return url.replace('C:\\fakepath\\', '');
+    return url.match(/[^\\/]*$/)[0];
   }
 
   removeFromCart(item: Product) {

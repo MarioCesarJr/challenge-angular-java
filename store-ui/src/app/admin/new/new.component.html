@@ -1,11 +1,16 @@
-<form id="new-product" #f="ngForm" (ngSubmit)="save(f)">
+<form id="new-product" #productForm="ngForm" (ngSubmit)="save(productForm)">
   <input
     type="file"
     name="image"
     [(ngModel)]="product.image"
-    #name="ngModel"
+    #image="ngModel"
     (change)="inputFileChange($event)"
+    required
   />
+
+  <div class="error" *ngIf="image.hasError('required') && image.touched">
+    Upload é obrigatório
+  </div>
 
   <input
     type="text"
@@ -50,11 +55,11 @@
   </div>
 
   <div class="button_container">
-    <button type="submit" [disabled]="f.invalid">
+    <button type="submit" [disabled]="productForm.invalid">
       {{ isEdit ? 'Atualizar' : 'Salvar' }}
     </button>
 
-    <button class="button_new" type="button" (click)="newProduct(f)">
+    <button class="button_new" type="button" (click)="newProduct(productForm)">
       Novo
     </button>
 
@@ -62,33 +67,51 @@
   </div>
 </form>
 
-<table style="margin-top: 20px">
-  <tr>
-    <th></th>
-    <th>Nome do produto</th>
-    <th>Ações</th>
-  </tr>
-
-  <tr *ngFor="let product of products">
-    <td>
-      <img
-        src="http://localhost:8080/images/{{ removeFakepath(product.image) }}"
-        alt=""
-        height="35"
-        width="35"
+<div class="container-table">
+  <div class="search">
+    <div></div>
+    <form (ngSubmit)="loadProducts()">
+      <input
+        type="text"
+        placeholder="Pesquisar por nome"
+        name="nameText"
+        [(ngModel)]="nameText"
       />
-    </td>
-    <td>
-      {{ product.name }}
-    </td>
-    <td>
-      <button
-        (click)="loadProduct(product.id)"
-        [routerLink]="['/admin', product.id]"
-      >
-        <i class="fas fa-pencil-alt"></i>
+      <button type="submit">
+        <i class="fas fa-search"></i>
       </button>
-      <button (click)="remove(product.id)"><i class="fas fa-trash"></i></button>
-    </td>
-  </tr>
-</table>
+    </form>
+  </div>
+  <table>
+    <tr>
+      <th></th>
+      <th>Nome do produto</th>
+      <th>Ações</th>
+    </tr>
+
+    <tr *ngFor="let product of products">
+      <td>
+        <img
+          src="http://localhost:8080/images/{{ removeFakepath(product.image) }}"
+          alt=""
+          height="35"
+          width="35"
+        />
+      </td>
+      <td>
+        {{ product.name }}
+      </td>
+      <td>
+        <button
+          (click)="loadProduct(product.id)"
+          [routerLink]="['/admin', product.id]"
+        >
+          <i class="fas fa-pencil-alt"></i>
+        </button>
+        <button (click)="confirmDelete(product.id)">
+          <i class="fas fa-trash"></i>
+        </button>
+      </td>
+    </tr>
+  </table>
+</div>

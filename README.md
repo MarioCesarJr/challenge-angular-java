@@ -18,3 +18,8 @@ Window->Preferences->Workspace, para refresh automático no diretório de imagen
 Em `src/main/resources/application.properties` as propriedades `spring.datasource.username` e
 `spring.datasource.password`.
 
+### Rotas 
+
+CRUD de produtos - URL: http://localhost:8080/admin
+Lista de produtos - URL: http://localhost:8080/
+Carrinho de compras - URL: http://localhost:8080/cart

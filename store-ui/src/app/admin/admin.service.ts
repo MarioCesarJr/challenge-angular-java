@@ -1,7 +1,11 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from '../../environments/environment';
 import { Product } from '../model/Product';
+
+export interface ProductFilter {
+  name: string;
+}
 
 @Injectable({
   providedIn: 'root'
@@ -13,8 +17,20 @@ export class AdminService {
     this.productsUrl = `${environment.apiUrl}/products`;
   }
 
-  loadProducts(): Promise<any> {
-    return this.http.get<any>(`${this.productsUrl}`).toPromise();
+  loadProducts(filter: ProductFilter): Promise<any> {
+    let params = new HttpParams();
+
+    if (filter.name) {
+      params = params.set('name', filter.name);
+    }
+
+    return (
+      this.http
+        .get<any>(`${this.productsUrl}?`, { params })
+        .toPromise()
+        // tslint:disable-next-line: no-string-literal
+        .then(response => response)
+    );
   }
 
   add(product: Product): Promise<Product> {

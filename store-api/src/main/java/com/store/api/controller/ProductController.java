@@ -29,6 +29,7 @@ import org.springframework.web.server.ResponseStatusException;
 
 import com.store.api.model.Product;
 import com.store.api.repository.ProductRepository;
+import com.store.api.repository.filter.ProductFilter;
 
 @CrossOrigin
 @RestController
@@ -39,10 +40,10 @@ public class ProductController {
 	private ProductRepository productRepository;
 	
 	@GetMapping
-	public List<Product> list() throws IOException {
-		return this.productRepository.findAll();
+	public List<Product> list(ProductFilter productFilter) {
+		return this.productRepository.filter(productFilter);
 	}
-
+	
 	@PostMapping("/image")
 	public String upload(@RequestParam MultipartFile image) throws IOException {
 
@@ -86,7 +87,6 @@ public class ProductController {
 	public ResponseEntity<Product> update(@PathVariable Long id, @Valid @RequestBody Product product) {
 		Product saveProduct = this.productRepository.findById(id)
 				.orElseThrow(() -> new EmptyResultDataAccessException(1));
-		;
 		BeanUtils.copyProperties(product, saveProduct, "id");
 
 		this.productRepository.save(saveProduct);

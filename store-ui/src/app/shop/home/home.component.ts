@@ -63,7 +63,7 @@ export class HomeComponent implements OnInit {
   }
 
   removeFakepath(url: string) {
-    return url.replace('C:\\fakepath\\', '');
+    return url.match(/[^\\/]*$/)[0];
   }
 
   addToCart(item: Product) {

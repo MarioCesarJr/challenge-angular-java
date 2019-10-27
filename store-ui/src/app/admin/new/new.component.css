@@ -33,6 +33,11 @@ form#new-product button {
   cursor: pointer;
 }
 
+form#new-product button[disabled] {
+  opacity: 0.65;
+  cursor: not-allowed;
+}
+
 form#new-product .error {
   margin-top: -5px;
   margin-bottom: 5px;
@@ -53,14 +58,50 @@ form#new-product input.ng-invalid.ng-touched {
   color: #3c6366;
 }
 
-/** TABLE */
-table {
+.container-table {
   width: 100%;
   max-width: 780px;
   margin: 30px auto 0;
 
   background: #fff;
   border: 1px solid #ddd;
+}
+
+.container-table .search {
+  background-color: #3c6366;
+  display: flex;
+  justify-content: space-between;
+  position: relative;
+}
+.container-table .search input {
+  background: #fff;
+  border: 0;
+  border-radius: 2px;
+  height: 40px;
+  padding: 15px 35px 15px 15px;
+  margin: 5px 10px;
+  width: 300px;
+}
+
+.container-table .search button {
+  position: absolute;
+  top: 0;
+  right: 15px;
+  z-index: 10;
+  border: none;
+  background: transparent;
+  outline: none;
+  padding: 15px 5px;
+  color: #777;
+}
+
+.container-table .search button i {
+  font-size: 19px;
+}
+
+/** TABLE */
+table {
+  width: 100%;
 }
 
 tabel td,
