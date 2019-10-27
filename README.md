@@ -20,6 +20,6 @@ Em `src/main/resources/application.properties` as propriedades `spring.datasourc
 
 ### Rotas 
 
-CRUD de produtos - URL: http://localhost:8080/admin
-Lista de produtos - URL: http://localhost:8080/
+CRUD de produtos - URL: http://localhost:8080/admin <br />
+Lista de produtos - URL: http://localhost:8080/  <br />
 Carrinho de compras - URL: http://localhost:8080/cart
