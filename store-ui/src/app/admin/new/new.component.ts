@@ -1,9 +1,9 @@
 import { HttpClient } from '@angular/common/http';
 import { ToastService } from 'angular-toastify';
 import { AdminService } from './../admin.service';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ElementRef, ViewChild } from '@angular/core';
 import { Product } from 'src/app/model/Product';
-import { FormControl } from '@angular/forms';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 
 @Component({
@@ -12,18 +12,22 @@ import { ActivatedRoute } from '@angular/router';
   styleUrls: ['./new.component.css']
 })
 export class NewComponent implements OnInit {
+  @ViewChild('inputFile', { static: false }) inputFileReset: ElementRef;
+
   products = [];
-  product = new Product();
   nameText: string;
+  formValidate: FormGroup;
 
   constructor(
     private adminService: AdminService,
     private route: ActivatedRoute,
     private toastService: ToastService,
-    private http: HttpClient
+    private http: HttpClient,
+    private formBuilder: FormBuilder
   ) {}
 
   ngOnInit() {
+    this.loadFormValidate();
     // tslint:disable-next-line: no-string-literal
     const idProduct = this.route.snapshot.params['id'];
 
@@ -32,6 +36,16 @@ export class NewComponent implements OnInit {
     }
 
     this.loadProducts();
+  }
+
+  loadFormValidate() {
+    this.formValidate = this.formBuilder.group({
+      id: [],
+      name: [null, Validators.required],
+      description: [],
+      price: [null, Validators.required],
+      image: ['empty.jpg']
+    });
   }
 
   removeFakepath(url: string) {
@@ -49,7 +63,7 @@ export class NewComponent implements OnInit {
       const image = event.target.files[0];
       const formData = new FormData();
       formData.append('image', image);
-
+      this.formValidate.get('image').setValue(image.name);
       this.http
         .post('http://localhost:8080/products/image', formData)
         .subscribe(response => console.log('ok'));
@@ -60,7 +74,7 @@ export class NewComponent implements OnInit {
     this.adminService
       .getId(id)
       .then(product => {
-        this.product = product;
+        this.formValidate.patchValue(product);
       })
       .catch(err =>
         this.toastService.error('Ocorreu um erro, por favor tente mais tarde.')
@@ -79,24 +93,26 @@ export class NewComponent implements OnInit {
   }
 
   get isEdit() {
-    return Boolean(this.product.id);
+    return Boolean(this.formValidate.get('id').value);
   }
 
-  save(form: FormControl) {
+  save() {
     if (this.isEdit) {
-      this.updateProduct(form);
-      form.reset();
+      this.updateProduct();
+      this.formValidate.reset();
     } else {
-      this.addProduct(form);
-      form.reset();
+      this.addProduct();
+      this.formValidate.reset();
     }
   }
 
-  addProduct(form: FormControl) {
+  addProduct() {
     this.adminService
-      .add(this.product)
+      .add(this.formValidate.value)
       .then(product => {
         this.toastService.success(`Produto ${product.name} adicionado !`);
+        this.inputFileReset.nativeElement.value = '';
+        this.formValidate.get('image').setValue('empty.jpg');
         this.loadProducts();
       })
       .catch(err =>
@@ -104,11 +120,11 @@ export class NewComponent implements OnInit {
       );
   }
 
-  updateProduct(form: FormControl) {
+  updateProduct() {
     this.adminService
-      .update(this.product)
+      .update(this.formValidate.value)
       .then(product => {
-        this.product = product;
+        this.formValidate.patchValue(product);
         this.toastService.success(`Produto ${product.name} atualizado !`);
         this.loadProducts();
       })
@@ -129,8 +145,8 @@ export class NewComponent implements OnInit {
       );
   }
 
-  newProduct(form: FormControl) {
-    form.reset();
+  newProduct() {
+    this.formValidate.reset();
 
     setTimeout(
       function() {
@@ -138,7 +154,8 @@ export class NewComponent implements OnInit {
       }.bind(this),
       1
     );
-
+    this.inputFileReset.nativeElement.value = '';
+    this.formValidate.get('image').setValue('empty.jpg');
     this.loadProducts();
   }
 }

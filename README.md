@@ -23,3 +23,12 @@ Em `src/main/resources/application.properties` as propriedades `spring.datasourc
 CRUD de produtos - URL: http://localhost:8080/admin <br />
 Lista de produtos - URL: http://localhost:8080/  <br />
 Carrinho de compras - URL: http://localhost:8080/cart
+
+![screenshot01](screenshots/screenshot01.png)
+
+![screenshot02](screenshots/screenshot02.png)
+
+![screenshot03](screenshots/screenshot03.png)
+
+![screenshot03](screenshots/screenshot04.png)
+
